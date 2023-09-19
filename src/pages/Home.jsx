@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Form from '../components/Form';
 import '../scss/components/Home.scss';
 import Image from '../assets//images/illustration-sign-up-desktop.svg';
 import Svg from '../assets//images/icon-list.svg';
 
 const Home = () => {
+  const [user, setUser] = useState('');
+
+  const userRegister = (dadosDoFilho) => {
+    setUser(dadosDoFilho);
+  };
   return (
     <div className="container-home">
       <div className="home">
