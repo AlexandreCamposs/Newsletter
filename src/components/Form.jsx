@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import ModalSuccess from './ModalSuccess';
 
 import '../scss/components/Form.scss';
 
-const Form = () => {
+const Form = ({ handleModal, handleUser }) => {
   const {
     register,
     handleSubmit,
@@ -12,8 +11,6 @@ const Form = () => {
     reset,
   } = useForm({ id: '', name: '', email: '' });
   const [usersList, setUsersList] = useState([]);
-  const [userRegister, setUserRegister] = useState('');
-  const [modal, setModal] = useState(false);
 
   const handleRegister = (data) => {
     const newUser = {
@@ -24,7 +21,8 @@ const Form = () => {
 
     setUsersList([...usersList, newUser]);
     reset();
-    setUserRegister(data.email);
+    handleUser(data.email);
+    handleModal(true);
   };
 
   console.log(usersList);
@@ -33,9 +31,13 @@ const Form = () => {
     <>
       <form onSubmit={handleSubmit(handleRegister)}>
         <label>
-          Nome
-          {errors.name?.type === 'minLength' && <small>Nome incompleto</small>}
-          {errors.name?.type === 'required' && <small>Digite o nome</small>}
+          <div className="label-form">
+            Nome
+            {errors.name?.type === 'minLength' && (
+              <small>Nome incompleto</small>
+            )}
+            {errors.name?.type === 'required' && <small>Digite o nome</small>}
+          </div>
           <input
             type="text"
             name="name"
@@ -49,14 +51,16 @@ const Form = () => {
           />
         </label>
         <label>
-          Email address
-          {errors.email?.message && <small>{errors.email.message}</small>}
+          <div className="label-form">
+            Email address
+            {errors.email?.message && <small>{errors.email.message}</small>}
+          </div>
           <input
             type="text"
             name="email"
             placeholder="email@company.com"
             {...register('email', {
-              required: 'Email nescessario',
+              required: 'Email obrigatório',
               validate: {
                 maxLength: (v) =>
                   v.length <= 30 || 'O e-mail deve ter no máximo 30 caracteres',
@@ -67,10 +71,8 @@ const Form = () => {
             })}
           />
         </label>
-
         <button type="submit">Subscribe to monthly newsletter</button>
       </form>
-      {modal && <ModalSuccess user={userRegister} />}
     </>
   );
 };

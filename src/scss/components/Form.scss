@@ -1,29 +1,33 @@
+@use '../mixins';
+@use '../variables';
+
 form {
-  // border: 1px solid red;
-  display: flex;
-  flex-direction: column;
+  @include mixins.display-flex;
+  align-items: initial;
+  justify-content: initial;
   label {
-    display: flex;
-    flex-direction: column;
+    @include mixins.display-flex;
+    align-items: initial;
+    justify-content: initial;
     font-weight: bold;
     margin-top: 1rem;
+    .label-form {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      small {
+        color: red;
+      }
+    }
   }
   input {
     border: none;
-    border: 2px solid #777;
+    border: 1px solid #777;
     border-radius: 5px;
     padding: 0.5rem;
     margin-top: 0.5rem;
   }
   button {
-    background-color: #06070d;
-    border-radius: 5px;
-    color: #fff;
-    padding: 0.5rem;
-    margin-top: 1rem;
-    opacity: 0.8;
-    &:hover {
-      opacity: 1;
-    }
+    @include mixins.button;
   }
 }
